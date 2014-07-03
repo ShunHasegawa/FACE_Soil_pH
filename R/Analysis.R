@@ -3,6 +3,8 @@ rm(list = ls(all = TRUE))
 library(plyr)
 library(lubridate)
 library(car)
+library(gmodels)
+library(ggplot2)
 
 #######################################
 # Dry-soil pH at each sampling events #
@@ -41,4 +43,35 @@ dryph <- within(dryph, {
 dryph <- dryph[order(dryph$Date), ]
 save(dryph, file = "Output//Data/FACE_SoilpH_DrySoil.RData")
 load("Output//Data/FACE_SoilpH_DrySoil.RData")
+
+#######
+# Fig #
+#######
+
+## calculate Ratio of e/a for each block ##
+
+# Ring mean
+RngMean <- ddply(dryph, .(block, Ring, CO2, Date, time), summarise, Mean = mean(pH, na.rm = TRUE))
+
+# ratio e/a
+RatDF <- ddply(RngMean, .(block, Date, time),  summarise,
+               Ratio = Mean[CO2 == "e"] / Mean[CO2 == "a"])
+
+# mean for each time
+RatMean <- ddply(RatDF, .(Date, time), summarise,
+                 Mean = mean(Ratio, na.rm = TRUE),
+                 SE = ci(Ratio)[4],
+                 N = sum(!is.na(Ratio)))
+
+# plot
+theme_set(theme_bw())
+p <- ggplot(RatMean, aes(x = Date, y = Mean))
+p2 <- p + geom_bar(stat = "identity", fill = "gray") +
+  geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE)) +
+  geom_hline(yintercept = 1) +
+  ylab("pH ratio (e/a)")
+
+############
+# anaylsis #
+############
 
