@@ -5,6 +5,7 @@ library(lubridate)
 library(car)
 library(gmodels)
 library(ggplot2)
+library(MASS)
 
 source("R/Function.R")
 #######################################
@@ -75,4 +76,7 @@ p2 <- p + geom_bar(stat = "identity", fill = "gray") +
 ############
 # anaylsis #
 ############
-
+bxplts(value = "pH", data = subsetD(dryph, post))
+library(lme4)
+m1 <- lmer(pH ~ CO2 * time + (1|block/Ring/Plot), data = subsetD(dryph, post))
+Anova(m1)
