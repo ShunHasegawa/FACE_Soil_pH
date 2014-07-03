@@ -47,6 +47,11 @@ Package: labeling
 Source: CRAN
 Version: 0.2
 
+Package: lme4
+Source: CRAN
+Version: 1.1-6
+Requires: minqa, Rcpp, RcppEigen
+
 Package: lubridate
 Source: CRAN
 Version: 1.3.3
@@ -56,6 +61,11 @@ Package: memoise
 Source: CRAN
 Version: 0.2.1
 Requires: digest
+
+Package: minqa
+Source: CRAN
+Version: 1.2.3
+Requires: Rcpp
 
 Package: munsell
 Source: CRAN
@@ -86,6 +96,11 @@ Version: 1.0-5
 Package: Rcpp
 Source: CRAN
 Version: 0.11.2
+
+Package: RcppEigen
+Source: CRAN
+Version: 0.3.2.1.2
+Requires: Rcpp
 
 Package: reshape2
 Source: CRAN
