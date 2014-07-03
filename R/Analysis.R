@@ -6,6 +6,7 @@ library(car)
 library(gmodels)
 library(ggplot2)
 
+source("R/Function.R")
 #######################################
 # Dry-soil pH at each sampling events #
 #######################################
