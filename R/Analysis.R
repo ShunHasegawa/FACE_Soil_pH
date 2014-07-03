@@ -6,6 +6,8 @@ library(car)
 library(gmodels)
 library(ggplot2)
 library(MASS)
+library(scales)
+library(lme4)
 
 source("R/Function.R")
 #######################################
@@ -71,12 +73,14 @@ p <- ggplot(RatMean, aes(x = Date, y = Mean))
 p2 <- p + geom_bar(stat = "identity", fill = "gray") +
   geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE)) +
   geom_hline(yintercept = 1) +
-  ylab("pH ratio (e/a)")
+  ylab("pH ratio (e/a)") +
+  scale_x_date(breaks= date_breaks("3 month"),
+               labels = date_format("%b-%y")) +
+  theme(axis.text.x  = element_text(angle=45, vjust= 1, hjust = 1))
 
 ############
 # anaylsis #
 ############
 bxplts(value = "pH", data = subsetD(dryph, post))
-library(lme4)
-m1 <- lmer(pH ~ CO2 * time + (1|block/Ring/Plot), data = subsetD(dryph, post))
+m1 <- lmer(pH ~ CO2 * time + (1|block/Ring/Plot), data = subsetD(dryph, !pre))
 Anova(m1)
