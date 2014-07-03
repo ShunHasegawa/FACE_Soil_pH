@@ -8,9 +8,44 @@ Package: car
 Source: CRAN
 Version: 2.0-20
 
+Package: colorspace
+Source: CRAN
+Version: 1.2-4
+
+Package: dichromat
+Source: CRAN
+Version: 2.0-0
+
 Package: digest
 Source: CRAN
 Version: 0.6.4
+
+Package: gdata
+Source: CRAN
+Version: 2.13.3
+Requires: gtools
+
+Package: ggplot2
+Source: CRAN
+Version: 1.0.0
+Requires: digest, gtable, plyr, proto, reshape2, scales
+
+Package: gmodels
+Source: CRAN
+Version: 2.15.4.1
+Requires: gdata
+
+Package: gtable
+Source: CRAN
+Version: 0.1.2
+
+Package: gtools
+Source: CRAN
+Version: 3.4.1
+
+Package: labeling
+Source: CRAN
+Version: 0.2
 
 Package: lubridate
 Source: CRAN
@@ -21,6 +56,11 @@ Package: memoise
 Source: CRAN
 Version: 0.2.1
 Requires: digest
+
+Package: munsell
+Source: CRAN
+Version: 0.4.2
+Requires: colorspace
 
 Package: packrat
 Source: github
@@ -35,14 +75,27 @@ Source: CRAN
 Version: 1.8.1
 Requires: Rcpp
 
+Package: proto
+Source: CRAN
+Version: 0.3-10
+
+Package: RColorBrewer
+Source: CRAN
+Version: 1.0-5
+
 Package: Rcpp
 Source: CRAN
 Version: 0.11.2
 
-Package: reshape
+Package: reshape2
 Source: CRAN
-Version: 0.8.5
-Requires: plyr
+Version: 1.4
+Requires: plyr, Rcpp, stringr
+
+Package: scales
+Source: CRAN
+Version: 0.2.4
+Requires: dichromat, labeling, munsell, plyr, RColorBrewer
 
 Package: stringr
 Source: CRAN
