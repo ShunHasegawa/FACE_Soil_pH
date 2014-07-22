@@ -5,7 +5,14 @@ date: "Monday, July 07, 2014"
 output: pdf_document
 ---
 
+```{r setup, include=FALSE}
+library(knitr)
+opts_knit$set(root.dir = "../")
+# opts_knit$set needs to in a separte chunk from the others for some reasons.
+```
+
 ```{r, include=FALSE}
+.libPaths("packrat/lib/x86_64-w64-mingw32/3.1.1")
 library(plyr)
 library(lubridate)
 library(car)
@@ -16,9 +23,9 @@ library(scales)
 library(lme4)
 library(reshape)
 
-source("../R/Function.R")
+source("R/Function.R")
 
-dryph <- read.csv("../Data/FACE_Soil_pH_DryFresh.csv",
+dryph <- read.csv("Data/FACE_Soil_pH_DryFresh.csv",
                   colClasses = c("duplicate" = "factor",
                                  "depth" = "factor"))
 
