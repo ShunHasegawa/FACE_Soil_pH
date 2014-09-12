@@ -72,3 +72,4 @@ p2 <- p + geom_bar(stat = "identity", fill = "gray") +
 bxplts(value = "pH", data = subsetD(dryph, post))
 m1 <- lmer(pH ~ CO2 * time + (1|block/Ring/Plot), data = subsetD(dryph, !pre))
 Anova(m1)
+Anova(m1, test.statistic = "F")
