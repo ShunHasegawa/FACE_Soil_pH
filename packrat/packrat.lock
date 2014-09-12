@@ -142,6 +142,12 @@ Source: CRAN
 Version: 0.4.1-1
 Hash: 5716097644904b9c1b4be2692de16005
 
+Package: pbkrtest
+Source: CRAN
+Version: 0.4-1
+Hash: 9827a29140897cad53b507aa8796558a
+Requires: lme4, MASS
+
 Package: plyr
 Source: CRAN
 Version: 1.8.1
