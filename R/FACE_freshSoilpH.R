@@ -45,6 +45,8 @@ DepMean$time <- DepMean$year
 bxplts(value = "M", data = DepMean)
 m1 <- lmer(M ~ co2 * year + (1|block) + (1|ring), data = DepMean)
 
+
+plot(allEffects(m1))
 Anova(m1)
 Anova(m1, test.statistic = "F")
 plot(m1)
