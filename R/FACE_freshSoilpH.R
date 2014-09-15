@@ -10,11 +10,36 @@ names(depthDF) <- c("topD", "bottomD")
 depthDF$midD <- rowMeans(depthDF)
 
 phDF <- cbind(phDF, depthDF)
-head(phDF)
+
+# organise data frame
+phDF <- within(phDF, {
+  time <- factor(ifelse(year == 2012, "1", "2"))
+  ring <- as.factor(ring)
+})
+
+
+# ring mean
+RngMeanPhDep <- ddply(phDF, .(year, depth, topD, midD, bottomD, ring, co2), summarise,
+                      Mean = mean(ph),
+                      SE = ci(ph)[4],
+                      N = sum(!is.na(ph))) 
+
+
+#######
+# Fig #
+#######
+# 2012
+theme_set(theme_bw())
+p <- ggplot(subsetD(RngMeanPhDep, year == 2012), aes(x = -midD, y = Mean, col = ring, group = ring))
+p2 <- p + geom_line(alpha = .7) +
+  labs(y = "Soil pH", x = "Depth (cm)") +
+  coord_flip() + 
+  scale_color_manual("Ring", values = c(1:6))
+ggsavePP(filename = "Output//Fig/FACE_FreshSoilPH2012", plot = p2, width = 6, height = 6)
+
 
 # subset the surface layer ph (< 30 cm)
 Sph <- subsetD(phDF, bottomD <= 30)
-head(Sph)
 
 # mena for each sampling location from different depths
 DepMean <- ddply(Sph, .(ring, co2, plot, year), summarise, 
@@ -28,7 +53,13 @@ RngMean <- ddply(DepMean, .(ring, co2, year), summarise,
                  SE = ci(M)[4],
                  N = sum(!is.na(M)))
 
-
+# co2 mean
+CO2Mean <- ddply(RngMean, .(co2, year), summarise,
+                 Mean = mean(ph),
+                 SD = sd(ph),
+                 SE = ci(ph)[4],
+                 N = sum(!is.na(ph)))
+co2Tbl <- cast(CO2Mean, year~ co2, value = "Mean")
 ########
 # Stat #
 ########
