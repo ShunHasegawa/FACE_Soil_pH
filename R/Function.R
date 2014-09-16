@@ -41,3 +41,8 @@ ggsavePP <- function(filename, plot, width, height){
          height = height, 
          dpi = 600)
 }
+
+###############
+# sample size #
+###############
+lengthN <- function(x) sum(!is.na(x))
