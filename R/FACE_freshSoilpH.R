@@ -41,7 +41,7 @@ ggsavePP(filename = "Output//Fig/FACE_FreshSoilPH2012", plot = p2, width = 6, he
 # subset the surface layer ph (< 30 cm)
 Sph <- subsetD(phDF, bottomD <= 30)
 
-# mena for each sampling location from different depths
+# mean for each sampling location from different depths
 DepMean <- ddply(Sph, .(ring, co2, plot, year), summarise, 
                  M = mean(ph),
                  N = sum(!is.na(ph)))
@@ -59,7 +59,7 @@ CO2Mean <- ddply(RngMean, .(co2, year), summarise,
                  SD = sd(ph),
                  SE = ci(ph)[4],
                  N = sum(!is.na(ph)))
-co2Tbl <- cast(CO2Mean, year~ co2, value = "Mean")
+
 ########
 # Stat #
 ########
@@ -93,5 +93,3 @@ Anova(lmeMod)
 cntrst<- contrast(lmeMod, 
                   a = list(year = levels(DepMean$year), co2 = "amb"),
                   b = list(year = levels(DepMean$year), co2 = "elev"))
-
-
