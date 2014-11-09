@@ -18,6 +18,9 @@ dryph <- within(dryph, {
   # block
   block <- recode(Ring, "1:2 = 'A'; 3:4 = 'B'; 5:6 = 'C';")
   
+  # id
+  id <- factor(Ring:Plot)
+  
   # date
   Date <- as.Date(dmy(paste("1", Date, sep = "-")))
   # Just assume it was 1st date of the sampling month
@@ -70,6 +73,6 @@ p2 <- p + geom_bar(stat = "identity", fill = "gray") +
 # anaylsis #
 ############
 bxplts(value = "pH", data = subsetD(dryph, post))
-m1 <- lmer(pH ~ CO2 * time + (1|block/Ring/Plot), data = subsetD(dryph, !pre))
+m1 <- lmer(pH ~ CO2 * time + (1|block) + (1|Ring) + (1|id), data = subsetD(dryph, !pre))
 Anova(m1)
 Anova(m1, test.statistic = "F")
