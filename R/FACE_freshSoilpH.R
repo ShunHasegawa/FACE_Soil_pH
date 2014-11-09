@@ -15,6 +15,7 @@ phDF <- cbind(phDF, depthDF)
 phDF <- within(phDF, {
   time <- factor(ifelse(year == 2012, "1", "2"))
   ring <- as.factor(ring)
+  year <- as.factor(year)
 })
 
 
@@ -75,11 +76,10 @@ DepMean$time <- DepMean$year
 
 bxplts(value = "M", data = DepMean)
 m1 <- lmer(M ~ co2 * year + (1|block) + (1|ring), data = DepMean)
-
-
-plot(allEffects(m1))
 Anova(m1)
 Anova(m1, test.statistic = "F")
+
+plot(allEffects(m1))
 plot(m1)
 qqnorm(residuals(m1))
 qqline(residuals(m1))
@@ -93,3 +93,30 @@ Anova(lmeMod)
 cntrst<- contrast(lmeMod, 
                   a = list(year = levels(DepMean$year), co2 = "amb"),
                   b = list(year = levels(DepMean$year), co2 = "elev"))
+
+#######
+# Fig #
+#######
+# Calculate ration e/a
+## Add block
+RngMean$block <- recode(RngMean$ring, "c(1, 2) = 'A'; c(3, 4) = 'B'; c(5, 6) = 'C'")
+
+## compute ratio
+RatioDF <- ddply(RngMean, .(year, block), summarise,
+                 eaRatio = ph[co2 == "elev"]/ph[co2 == "amb"])
+
+## mean, SE, and N of ratio for each year
+RatMeanDF <- ddply(RatioDF, .(year), summarise, 
+                   Mean = mean(eaRatio),
+                   SE = ci(eaRatio)[4], 
+                   N = sum(!is.na(eaRatio)))
+
+# create a plot
+p <- ggplot(data = RatMeanDF, aes(x = year, y = Mean))
+p + geom_bar(fill = "white", col = "black", stat = "identity") +
+  geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE), width = .5) +
+  coord_cartesian(ylim=c(.9, 1.1))
+?geom_errorbar
+
+?geom_bar
+
