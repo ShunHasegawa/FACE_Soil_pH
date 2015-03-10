@@ -151,22 +151,20 @@ statDF <- StatPositionDF(StatRes = Stat_CO2Time, ytop = 6, ylength = 1, gap = .0
 # graph setting
 science_theme <- theme(panel.grid.major = element_blank(),
                        panel.grid.minor = element_blank(),
-                       legend.position = c(.15, .89), 
+                       legend.position = c(.2, .85), 
                        legend.title = element_blank())
 
 # create a plot
-p <- ggplot(data = CO2Mean, aes(x = year, y = Mean, fill = co2))
-p2 <- p + geom_bar(stat = "identity", 
-                   position = position_dodge(width = .9), 
-             alpha = .7, 
-             col = "black") +
+p <- ggplot(data = CO2Mean, aes(x = year, y = Mean, shape = co2, fill = co2))
+p2 <- p + 
+  geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE),
+                position = position_dodge(width = .9), width = 0) +
+  geom_point(size = 5, position = position_dodge(width = .9)) +
   scale_fill_manual(values = c("black", "white"), 
                     labels = c("Ambient", expression(eCO[2]))) +
-  geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE),
-                position = position_dodge(width = .9), 
-                width = .5) +
-  scale_x_discrete(labels = c(expression(2012~(Pre-CO[2])), "2013")) +
-  coord_cartesian(ylim=c(5, 6)) +
+  scale_shape_manual(values = c(24, 21), labels = c("Ambient", expression(eCO[2]))) +
+  scale_x_discrete(labels = c(expression(atop("June 2012", paste("(Pre-CO"[2], ")"))), 
+                              "June 2013")) +
   labs(x = "Year", y = "Soil pH at 0-30 cm") +
   science_theme +
   # here draw lines which connect two bars for each year
@@ -187,10 +185,10 @@ p2 <- p + geom_bar(stat = "identity",
   geom_text(data = statDF, 
             aes(x = 2.4, y = yval, label = p), 
             size = 2, parse = TRUE)
-  
+p2
 # Use the combination of geom_segment and geom_errorbar to connect to bars where
 # you place significant symbols. geom_segment doesn't work well with
 # position_dodge(). It makes x position dodged but not y. so when you need to
 # use position_dodge() (e.g. plotting barplot), use geom_errorbar to get
 # vertical lines
-ggsavePP(filename = "Output//Fig/Manuscript/FACE_SoilpH", plot = p2, width = 4, height = 4)
+ggsavePP(filename = "Output//Fig/Manuscript/FACE_SoilpH", plot = p2, width = 3.5, height = 3.5)
