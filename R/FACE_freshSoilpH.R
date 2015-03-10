@@ -165,7 +165,7 @@ p2 <- p +
   scale_shape_manual(values = c(24, 21), labels = c("Ambient", expression(eCO[2]))) +
   scale_x_discrete(labels = c(expression(atop("June 2012", paste("(Pre-CO"[2], ")"))), 
                               "June 2013")) +
-  labs(x = "Year", y = "Soil pH at 0-30 cm") +
+  labs(x = "Time", y = "Soil pH at 0-30 cm") +
   science_theme +
   # here draw lines which connect two bars for each year
   geom_errorbar(aes(ymin = ymin, ymax = ymax),
@@ -185,7 +185,7 @@ p2 <- p +
   geom_text(data = statDF, 
             aes(x = 2.4, y = yval, label = p), 
             size = 2, parse = TRUE)
-p2
+
 # Use the combination of geom_segment and geom_errorbar to connect to bars where
 # you place significant symbols. geom_segment doesn't work well with
 # position_dodge(). It makes x position dodged but not y. so when you need to
