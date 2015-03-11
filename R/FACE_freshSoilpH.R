@@ -155,24 +155,23 @@ science_theme <- theme(panel.grid.major = element_blank(),
                        legend.title = element_blank())
 
 # create a plot
-p <- ggplot(data = CO2Mean, aes(x = year, y = Mean, shape = co2, fill = co2))
+p <- ggplot(data = CO2Mean, aes(x = year, y = Mean, fill = co2))
 p2 <- p + 
   geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE),
-                position = position_dodge(width = .9), width = 0) +
-  geom_point(size = 5, position = position_dodge(width = .9)) +
+                position = position_dodge(width = .7), width = 0) +
+  geom_point(size = 5, position = position_dodge(width = .7), shape = 21) +
   scale_fill_manual(values = c("black", "white"), 
                     labels = c("Ambient", expression(eCO[2]))) +
-  scale_shape_manual(values = c(24, 21), labels = c("Ambient", expression(eCO[2]))) +
   scale_x_discrete(labels = c(expression(atop("June 2012", paste("(Pre-CO"[2], ")"))), 
                               "June 2013")) +
   labs(x = "Time", y = "Soil pH at 0-30 cm") +
   science_theme +
   # here draw lines which connect two bars for each year
   geom_errorbar(aes(ymin = ymin, ymax = ymax),
-                   position = position_dodge(width = .9),
+                   position = position_dodge(width = .7),
                    width = 0) +
   geom_segment(aes(x = year, xend = year, y = ymax, yend = ymax),
-               position = position_dodge(width = .9)) +
+               position = position_dodge(width = .7)) +
   # here add P values
   geom_text(aes(x = year, y = ymax, label = pval), 
             parse = TRUE, vjust = -1, size = 2.5) +
