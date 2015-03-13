@@ -152,7 +152,8 @@ statDF <- StatPositionDF(StatRes = Stat_CO2Time, ytop = 6, ylength = 1, gap = .0
 science_theme <- theme(panel.grid.major = element_blank(),
                        panel.grid.minor = element_blank(),
                        legend.position = c(.2, .85), 
-                       legend.title = element_blank())
+                       legend.title = element_blank(),
+                       legend.key = element_blank())
 
 # create a plot
 p <- ggplot(data = CO2Mean, aes(x = year, y = Mean, fill = co2))
