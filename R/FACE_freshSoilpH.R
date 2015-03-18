@@ -146,14 +146,19 @@ CO2Mean$ymin <- with(CO2Mean, (Mean + SE) +0.05)
 
 
 # df for stat table
-statDF <- StatPositionDF(StatRes = Stat_CO2Time, ytop = 6, ylength = 1, gap = .04)
+statDF <- StatPositionDF(StatRes = Stat_CO2Time, ytop = 6, ylength = 1, gap = .045)
 
 # graph setting
-science_theme <- theme(panel.grid.major = element_blank(),
+science_theme <- theme(panel.border = element_rect(colour = "black"),
+                       panel.grid.major = element_blank(),
                        panel.grid.minor = element_blank(),
-                       legend.position = c(.2, .85), 
+                       legend.background = element_rect(fill = alpha("white", 0)),
+                       legend.position = c(.2, .89), 
                        legend.title = element_blank(),
-                       legend.key = element_blank())
+                       legend.key = element_blank(),
+                       legend.margin = unit(0, "lines"),
+                       axis.ticks.length = unit(-.2, "lines"),
+                       axis.ticks.margin = unit(.5, "lines"))
 
 # create a plot
 p <- ggplot(data = CO2Mean, aes(x = year, y = Mean, fill = co2))
@@ -175,20 +180,20 @@ p2 <- p +
                position = position_dodge(width = .7)) +
   # here add P values
   geom_text(aes(x = year, y = ymax, label = pval), 
-            parse = TRUE, vjust = -1, size = 2.5) +
+            parse = TRUE, vjust = -.5, size = 3) +
   # here add stat table
   geom_text(data = subset(statDF, predictor != ""), 
-                aes(x = 2.3, y = yval, label = predictor),
-                size = 2, , hjust = 1, parse = TRUE) +
+                aes(x = 2.1, y = yval, label = predictor),
+                size = 3, , hjust = 1, parse = TRUE) +
   # unless remove [" "] with predictor != "", labels will be messed up due to
   # this empty level
   geom_text(data = statDF, 
             aes(x = 2.4, y = yval, label = p), 
-            size = 2, parse = TRUE)
+            size = 3, parse = TRUE)
 
 # Use the combination of geom_segment and geom_errorbar to connect to bars where
 # you place significant symbols. geom_segment doesn't work well with
 # position_dodge(). It makes x position dodged but not y. so when you need to
 # use position_dodge() (e.g. plotting barplot), use geom_errorbar to get
 # vertical lines
-ggsavePP(filename = "Output//Fig/Manuscript/FACE_SoilpH", plot = p2, width = 3.5, height = 3.5)
+ggsavePP(filename = "Output//Fig/Manuscript/FACE_SoilpH", plot = p2, width = 3.14, height = 3.14)
