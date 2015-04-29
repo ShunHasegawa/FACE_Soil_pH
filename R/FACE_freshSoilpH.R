@@ -139,11 +139,10 @@ CO2Mean <- merge(CO2Mean, pvalsDF, by = "year", all = TRUE)
 # Add ymin and ymax to draw lines which connect two bars where I place
 # significace symbols
 
-CO2Mean <- ddply(CO2Mean, .(year), transform, 
-                ymax = max(Mean + SE) + 0.1) 
-## common max values between co2 treatment for each year
-CO2Mean$ymin <- with(CO2Mean, (Mean + SE) +0.05)
-
+CO2Mean <- within(CO2Mean, {
+  ymax <- max(Mean + SE) + .07 
+  ymin <- ymax - 0.02
+})
 
 # df for stat table
 statDF <- StatPositionDF(StatRes = Stat_CO2Time, ytop = 6, ylength = 1, gap = .045)
@@ -174,10 +173,11 @@ p2 <- p +
   science_theme +
   # here draw lines which connect two bars for each year
   geom_errorbar(aes(ymin = ymin, ymax = ymax),
-                   position = position_dodge(width = .7),
-                   width = 0) +
+                position = position_dodge(width = .7), 
+                width = 0, color = "gray40") +
   geom_segment(aes(x = year, xend = year, y = ymax, yend = ymax),
-               position = position_dodge(width = .7)) +
+               position = position_dodge(width = .7), 
+               color = "gray40") +
   # here add P values
   geom_text(aes(x = year, y = ymax, label = pval), 
             parse = TRUE, vjust = -.5, size = 3) +
